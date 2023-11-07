@@ -8,8 +8,12 @@ done
 
 # Install desired network definitions
 mkdir -p /host/etc/cni/multus/net.d
-if [ -z "$NET_DEFS_DIR" ]; then
-    echo "NET_DEFS_DIR not set, not copying over any network definitions"
+if [ -z "$NET_DEFS_PREFIX" ]; then
+    echo "NET_DEFS_PREFIX not set, not copying over any network definitions"
 else
-    cp /opt/net-defs/${NET_DEFS_DIR}/* /host/etc/cni/multus/net.d/
+    for path in /opt/net-defs/${NET_DEFS_PREFIX}.*; do
+        src=$(basename $path)
+        dst=${src#${NET_DEFS_PREFIX}.} # strip prefix from source file name
+        cp /opt/net-defs/${src} /host/etc/cni/multus/net.d/${dst}
+    done
 fi

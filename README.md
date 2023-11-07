@@ -24,8 +24,8 @@ initContainers:
       - name: CNI_PLUGINS
         # space separated list of CNI plugin binary names
         value: bridge macvlan
-      - name: NET_DEFS_DIR
-        # nodeName can be used as the directory name for host specific network-definitions
+      - name: NET_DEFS_PREFIX
+        # nodeName can be used as the prefix for host specific network-definitions
         valueFrom:
           fieldRef:
             fieldPath: spec.nodeName
